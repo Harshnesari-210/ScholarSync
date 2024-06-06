@@ -14,8 +14,6 @@ public:
 
   student(string n, string s, string a, long m)
       : name(n), srn(s), address(a), mobile_no(m) {}
-
-   
 };
 
 class student_information : public student {
@@ -25,7 +23,7 @@ public:
   int rollno;
   long parent_mob;
 
-  void getdata(student_information& si)  { // Pass by reference
+  void getdata(student_information& si) {
     cout << "Enter details: " << endl;
     cout << "Student Name: ";
     cin >> si.name;
@@ -47,7 +45,7 @@ public:
     cout << endl;
   }
 
-  void display()  {
+  void display() {
     cout << "name: " << name << endl
          << "srn: " << srn << endl
          << "address: " << address << endl
@@ -57,47 +55,86 @@ public:
          << "roll no: " << rollno << endl
          << "parent mobile no: " << parent_mob << endl;
   }
+
+  void update(string field) {
+    if (field == "name") {
+      cout << "Enter new name: ";
+      cin >> name;
+    } else if (field == "srn") {
+      cout << "Enter new SRN: ";
+      cin >> srn;
+    } else if (field == "address") {
+      cout << "Enter new address: ";
+      cin >> address;
+    } else if (field == "mobile_no") {
+      cout << "Enter new mobile number: ";
+      cin >> mobile_no;
+    } else if (field == "branch") {
+      cout << "Enter new branch: ";
+      cin >> branch;
+    } else if (field == "div") {
+      cout << "Enter new division: ";
+      cin >> div;
+    } else if (field == "rollno") {
+      cout << "Enter new roll number: ";
+      cin >> rollno;
+    } else if (field == "parent_mob") {
+      cout << "Enter new parent mobile number: ";
+      cin >> parent_mob;
+    } else {
+      cout << "Invalid field. Please try again." << endl;
+    }
+  }
 };
 
 void menu() {
-  int n, m,p;
-  cout << "Home" << endl;
-  cout << " 1.Student Information \n 2.Update information \n 3.Academic Information \n 4.Attendance \n 5.Marks \n 6.Backlog Registration \n 7.Course Registration \n 8.Feedback \n 9.Progress" << endl;
-  cout << "enter your choice: ";
-  cin >> n;
+  int n, m, p;
+  student_information si;
 
-  if (n == 1) {
-    student_information si;
-    si.getdata(si);
+  while (true) {
+    cout << "Home" << endl;
+    cout << " 1.Student Information \n 2.Update information \n 3.Academic Information \n 4.Attendance \n 5.Marks \n 6.Backlog Registration \n 7.Course Registration \n 8.Feedback \n 9.Progress" << endl;
+    cout << "Enter your choice: ";
+    cin >> n;
 
-    cout << "1.get information \n 2. display information" << endl;
-    cin >> m;
+    if (n == 1) {
+     
 
-    if (m == 2) {
-      si.display();
+      cout << "1. Get information \n2. Display information" << endl;
+      cin >> m;
 
-      cout<<"enter 1 to back to home page: ";
-      cin>>p;
-
-      if(p==1)
-      {
-        menu();
+      if (m == 2) {
+        si.display();
+        cout << "Enter 1 to go back to home page: ";
+        cin >> p;
+        if (p == 1) {
+          continue;
+        }
+      } else if (m == 1) {
+        cout << "Re-entering information will overwrite previous data." << endl;
+        si.getdata(si);
+        cout << "Enter 1 to go back to home page: ";
+        cin >> p;
+        if (p == 1) {
+          continue;
+        }
+      } else {
+        cout << "Please enter a valid choice: " << endl;
       }
-    } else if (m == 1) {
-      cout << "Re-entering information will overwrite previous data." << endl;
-      si.getdata(si);
-      cout<<"enter 1 to back to home page: ";
-      cin>>p;
-
-      if(p==1)
-      {
-        menu();
+    } else if (n == 2) {
+      string field;
+      cout << "Enter the field you want to update (name, srn, address, mobile_no, branch, div, rollno, parent_mob): ";
+      cin >> field;
+      si.update(field);
+      cout << "Update successful. Enter 1 to go back to home page: ";
+      cin >> p;
+      if (p == 1) {
+        continue;
       }
     } else {
-      cout << "please enter valid choice: " << endl;
+      cout << "Please enter a valid choice: " << endl;
     }
   }
-
 }
 
 int main() {
