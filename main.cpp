@@ -1,4 +1,10 @@
 #include <iostream>
+#include <vector>
+#include <string>
+#include "matplotlibcpp.h"
+
+namespace plt = matplotlibcpp;
+
 using namespace std;
 
 class student_information;
@@ -22,6 +28,14 @@ public:
   string div;
   int rollno;
   long parent_mob;
+  int ASR;
+  int OOPS;
+  int POCD;
+  int OSPP;
+  float sem1;
+  float sem2;
+  float sem3;
+  float cgpa;
 
   void getdata(student_information& si) {
     cout << "Enter details: " << endl;
@@ -87,9 +101,43 @@ public:
   }
 };
 
+class academic : public student_information {
+public:
+  void get_academic_info(academic& a) {
+    cout << "Enter academic information (marks): " << endl;
+    cout << "ASR: ";
+    cin >> a.ASR;
+    cout << endl << "OOPS: ";
+    cin >> a.OOPS;
+    cout << endl << "POCD: ";
+    cin >> a.POCD;
+    cout << endl << "OSPP: ";
+    cin >> a.OSPP;
+  }
+
+  void display_academic_info() {
+    cout << "ASR: " << ASR << endl
+         << "OOPS: " << OOPS << endl
+         << "POCD: " << POCD << endl
+         << "OSPP: " << OSPP << endl
+         << "Total: " << (ASR + OOPS + POCD + OSPP) << endl
+         << "CGPA: " << (ASR + OOPS + POCD + OSPP) / 40.0 << endl;
+
+    vector<int> marks = {ASR, OOPS, POCD, OSPP};
+    vector<string> subjects = {"ASR", "OOPS", "POCD", "OSPP"};
+
+    plt::bar(subjects, marks);
+    plt::xlabel("Subjects");
+    plt::ylabel("Marks");
+    plt::title("Academic Performance");
+    plt::show();
+  }
+};
+
 void menu() {
   int n, m, p;
   student_information si;
+  academic ac;
 
   while (true) {
     cout << "Home" << endl;
@@ -98,8 +146,6 @@ void menu() {
     cin >> n;
 
     if (n == 1) {
-     
-
       cout << "1. Get information \n2. Display information" << endl;
       cin >> m;
 
@@ -111,7 +157,6 @@ void menu() {
           continue;
         }
       } else if (m == 1) {
-        cout << "Re-entering information will overwrite previous data." << endl;
         si.getdata(si);
         cout << "Enter 1 to go back to home page: ";
         cin >> p;
@@ -127,6 +172,21 @@ void menu() {
       cin >> field;
       si.update(field);
       cout << "Update successful. Enter 1 to go back to home page: ";
+      cin >> p;
+      if (p == 1) {
+        continue;
+      }
+    } else if (n == 3) {
+      cout << "1. Get academic info \n2. Display academic info" << endl;
+      cin >> m;
+      if (m == 1) {
+        ac.get_academic_info(ac);
+      } else if (m == 2) {
+        ac.display_academic_info();
+      } else {
+        cout << "Please enter a valid choice: " << endl;
+      }
+      cout << "Enter 1 to go back to home page: ";
       cin >> p;
       if (p == 1) {
         continue;
